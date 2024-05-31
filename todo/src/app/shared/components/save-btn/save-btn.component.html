@@ -1,0 +1,9 @@
+<button
+  [disabled]="isDisabled()"
+  (click)="onClick.emit()"
+  [ngClass]="styles()"
+  class="submit"
+  (enterTrigger)="onClick.emit()"
+>
+  <ng-content></ng-content>
+</button>
