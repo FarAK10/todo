@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-save-btn',
   templateUrl: './save-btn.component.html',
-  styleUrls: ['./save-btn.component.css'],
+  styleUrls: ['./save-btn.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule],

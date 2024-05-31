@@ -1,0 +1,14 @@
+.login-container {
+  .login-card {
+    padding: 20px;
+
+    .login-title {
+    }
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { LocalStorageItems } from '../constants/local-storage.enum';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  httpClient = inject(HttpClient);
   private accessTokenKey = LocalStorageItems.accessToken;
 
   setAccessToken(token: string) {

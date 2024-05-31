@@ -1,3 +1,29 @@
-<p>
-  login works!
-</p>
+<div class="login-container">
+  <mat-card class="login-card">
+    <h1 class="login-title">Login</h1>
+
+    <form class="controls" [formGroup]="loginForm">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required />
+        <mat-error *ngIf="loginControl.hasError('required')"
+          >Email is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required />
+        <mat-error *ngIf="passwordControl.hasError('required')"
+          >Password is required</mat-error
+        >
+      </mat-form-field>
+      <app-save-btn
+        [isDisabled]="loginForm.invalid"
+        (onClick)="login()"
+        class="save-btn"
+      >
+        Submit</app-save-btn
+      >
+    </form>
+  </mat-card>
+</div>
