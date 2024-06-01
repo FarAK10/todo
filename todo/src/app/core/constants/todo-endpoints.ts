@@ -1,3 +1,3 @@
 export enum TodoEndpoints {
-  getAll = 'todo',
+  getAll = 'todo/',
 }

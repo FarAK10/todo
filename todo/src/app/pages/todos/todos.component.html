@@ -1,5 +1,12 @@
-<div class="todos">
-  @for(todo of todos();track todo.id ){
-  <app-todo class="todo" [todo]="todo"></app-todo>
-  }
+<div class="todos-wrapper">
+  <div class="controls">
+    <button [routerLink]="routes.add" rout mat-raised-button color="primary">
+      Add
+    </button>
+  </div>
+  <div class="todos">
+    @for(todo of todos();track todo.id ){
+    <app-todo class="todo" [todo]="todo"></app-todo>
+    }
+  </div>
 </div>

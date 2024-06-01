@@ -2,15 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  effect,
   inject,
   OnInit,
 } from '@angular/core';
 import { ToastComponent } from './toast/toast.component';
 import { ToastService } from './services/toast.service';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { interval } from 'rxjs';
 
 @Component({
   selector: 'toasts',

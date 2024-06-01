@@ -1,4 +1,11 @@
-.todos {
-  display: flex;
-  flex-wrap: wrap;
+.todos-wrapper {
+  padding: 20px;
+  .todos {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
