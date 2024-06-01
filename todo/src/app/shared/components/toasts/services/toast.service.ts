@@ -29,11 +29,8 @@ export class ToastService {
 
   toasts$ = this.toastAction$.pipe(
     scan((toasts: IToast[], action: IBaseToastAction) => {
-      console.log(action, toasts);
-
       switch (action.type) {
         case 'add':
-          console.log('add actions');
           const toast = (action as IAddToastAction).toast;
           toasts.push(toast);
           break;
@@ -46,8 +43,7 @@ export class ToastService {
           );
       }
       return toasts;
-    }, [] as IToast[]),
-    tap((toasts) => console.log(toasts))
+    }, [] as IToast[])
   );
 
   clearToasts$ = this.toastAction$.pipe(

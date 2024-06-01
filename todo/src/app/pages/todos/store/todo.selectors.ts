@@ -8,7 +8,10 @@ export const selectAllTodos = createSelector(
   selectTodoState,
   (state: ITodoState) => state.todos.results
 );
-
+export const selectSelectedTodo = createSelector(
+  selectTodoState,
+  (state: ITodoState) => state.selectedTodo
+);
 export const selectTodoError = createSelector(
   selectTodoState,
   (state: ITodoState) => state.error

@@ -9,9 +9,3 @@ export interface ITodoState {
   selectedTodo: IGetTodoDTO | null;
   error: any;
 }
-
-export const initialState: ITodoState = {
-  todos: { count: 0, prev: 0, next: 0, results: [] },
-  selectedTodo: null,
-  error: null,
-};
