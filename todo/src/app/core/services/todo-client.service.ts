@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiClientService } from './api-client.service';
 import { TodoEndpoints } from '../constants/todo-endpoints';
-import { IGetAllTodosRes } from '../typings/todo';
+import { IBaseTodoDTO, IGetAllTodosRes } from '../typings/todo';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -16,11 +16,25 @@ export class TodoClient {
     return this.httpClient.get<IGetAllTodosRes>(TodoEndpoints.getAll);
   }
 
-  getById() {}
+  getById(id: string) {
+    const url = this.generateUrl(TodoEndpoints.getAll, id);
+    return this.httpClient.get<IGetAllTodosRes>(url);
+  }
 
-  create() {}
+  create(body: IBaseTodoDTO) {
+    return this.httpClient.post<IGetAllTodosRes>(TodoEndpoints.getAll, body);
+  }
 
-  update() {}
+  update(id: string, body: IBaseTodoDTO) {
+    const url = this.generateUrl(TodoEndpoints.getAll, id);
+    return this.httpClient.put<IGetAllTodosRes>(url, body);
+  }
 
-  delete() {}
+  delete(id: string) {
+    return this.httpClient.delete(this.generateUrl(TodoEndpoints.getAll, id));
+  }
+
+  generateUrl(...params: (string | number)[]): string {
+    return params.join('/');
+  }
 }
