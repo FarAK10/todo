@@ -4,6 +4,11 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: RootRoutes.auth,
+  },
+  {
     path: RootRoutes.auth,
     loadComponent() {
       return import('./layouts/auth-layout/auth-layout.component').then(
