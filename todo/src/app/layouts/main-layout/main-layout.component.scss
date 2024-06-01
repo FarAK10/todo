@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    flex: 1 0 auto;
+    min-height: 85vh;
+  }
+
+  .footer {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+  }
+}

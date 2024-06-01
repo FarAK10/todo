@@ -1,0 +1,8 @@
+<button
+  [disabled]="isDisabled()"
+  (click)="onClick.emit()"
+  [ngClass]="styles()"
+  class="submit"
+>
+  <ng-content></ng-content>
+</button>

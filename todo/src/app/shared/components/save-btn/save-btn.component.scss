@@ -1,0 +1,28 @@
+.submit {
+  width: 100%;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  align-items: center;
+  height: 40px;
+  color: white;
+  background-color: var(--green);
+  border: none;
+  cursor: pointer;
+
+  &.blocked {
+    pointer-events: none;
+    background-color: darkgray;
+  }
+
+  &.error {
+    background-color: var(--red);
+  }
+
+  .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

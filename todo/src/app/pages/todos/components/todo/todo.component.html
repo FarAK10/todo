@@ -1,0 +1,21 @@
+<div class="todo-card">
+  <div class="card-header">
+    <h3 class="card-title">{{ todo().title }}</h3>
+    <p class="card-subtitle">User ID: {{ todo().user }}</p>
+  </div>
+  <div class="card-content">
+    <p>
+      Created At: {{ todo().created_at | date : "dd.MM.yyyy HH:mm" }}<br />
+      Updated At: {{ todo().updated_at | date : "dd.MM.yyyy HH:mm" }}<br />
+      Status:
+      <span
+        [ngClass]="{ completed: todo().completed, pending: !todo().completed }"
+      >
+        {{ todo().completed ? "Completed" : "Pending" }}
+      </span>
+    </p>
+  </div>
+  <div class="card-actions">
+    <button class="btn" (click)="viewDetails()">View Details</button>
+  </div>
+</div>
