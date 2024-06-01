@@ -1,0 +1,13 @@
+.delete-btn {
+  padding: 15px;
+  border-radius: 15px;
+  border: 0;
+  cursor: pointer;
+
+  background-color: var(--red);
+
+  .mat-icon {
+    color: white;
+  }
+  color: white;
+}

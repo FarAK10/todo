@@ -6,17 +6,18 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideStore } from '@ngrx/store';
-import { reducers, TodoEffects, todoReducer } from './store';
+import { effects, reducers, TodoEffects, todoReducer } from './store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor])),
     provideAnimationsAsync(),
     provideStore(reducers),
-    provideEffects([TodoEffects]),
+    provideEffects(effects),
     provideStoreDevtools({ maxAge: 25 }),
   ],
 };

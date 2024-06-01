@@ -1,0 +1,66 @@
+.todo-details {
+  border-left: 5px solid #007bff; /* Blue border for visual interest */
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff; /* White background for clean look */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+}
+
+.todo-title {
+  color: #333; /* Dark color for contrast */
+  font-size: 1.8rem; /* Larger font size */
+  margin-bottom: 10px;
+  font-weight: bold; /* Bold font */
+}
+
+.metadata {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  color: #666; /* Lighter text for metadata */
+  font-style: italic;
+
+  .date {
+    margin-bottom: 5px;
+  }
+
+  .actions {
+    display: flex;
+
+    gap: 10px; /* Spacing between buttons */
+    margin-top: 10px;
+
+    button {
+      border-radius: 4px; /* Rounded corners for buttons */
+      padding: 5px 15px; /* Padding for buttons */
+    }
+  }
+}
+
+.completed {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #dff0d8; /* Light green background to indicate completion */
+  border: 1px solid #3c763d; /* Border matching the completion color */
+  border-radius: 4px; /* Rounded corners */
+  font-weight: bold; /* Bold text */
+  color: #3c763d; /* Darker green text color */
+  text-align: center; /* Center aligned text */
+}
+.not-completed {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f2dede;
+  border: 1px solid #a94442;
+  border-radius: 4px;
+  font-weight: bold; /* Bold text */
+  color: #a94442; /* Darker red text color */
+  text-align: center; /* Center aligned text */
+}

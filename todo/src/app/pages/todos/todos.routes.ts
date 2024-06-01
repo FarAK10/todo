@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { TodosComponent } from './todos.component';
 import { NgModule } from '@angular/core';
+import { todoResolver } from './resolvers/todo-resolver';
 
 export const routes: Routes = [
   {
@@ -21,5 +22,6 @@ export const routes: Routes = [
       import('./pages/todo-details/todo-details.component').then(
         (m) => m.TodoDetailsComponent
       ),
+    resolve: { todo: todoResolver },
   },
 ];

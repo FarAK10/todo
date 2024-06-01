@@ -39,6 +39,11 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RootRoutes } from '../../core/constants/routes';
+import { Store } from '@ngrx/store';
+import * as UserActions from '../../store/user/user.actions';
+import * as UserSelectors from '../../store/user/user.selector';
+import { LoadingService } from '../../core/services/loading.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -58,11 +63,11 @@ import { RootRoutes } from '../../core/constants/routes';
 })
 export class LoginComponent {
   authClient = inject(AuthApiClient);
-  authService = inject(AuthService);
   toastService = inject(ToastService);
   router = inject(Router);
+  store = inject(Store);
   fb = inject(FormBuilder);
-
+  loadingService = inject(LoadingService);
   toastKeys = signal([ToastKeys.loginError, ToastKeys.loginSuccess]);
 
   loginForm: FormGroup = this.fb.group({
@@ -75,32 +80,20 @@ export class LoginComponent {
     distinctUntilChanged()
   );
 
-  isLoading = signal(false);
-
+  isLoading = toSignal(this.loadingService.loading$);
   isFormValid = toSignal(this.isFormValid$);
 
-  isButtonDisabled = computed(() => !this.isFormValid() || this.isLoading());
+  isButtonDisabled = computed(() => {
+    const formValid = !!this.isFormValid();
+    const loading = !!this.isLoading();
+    return !formValid || loading;
+  });
   constructor() {}
   onSubmit(): void {}
 
   login(): void {
     const loginDTo = this.loginForm.value as ILoginDTO;
-    this.isLoading.set(true);
-    this.authClient
-      .login(loginDTo)
-      .pipe(
-        finalize(() => {
-          this.isLoading.set(false);
-        })
-      )
-      .subscribe({
-        next: (res: ILoginResponse) => {
-          this.onSuccess(res);
-        },
-        error: (err) => {
-          this.onErrorResponse(err);
-        },
-      });
+    this.store.dispatch(UserActions.login(loginDTo));
   }
 
   get loginControl(): FormControl {
@@ -109,27 +102,5 @@ export class LoginComponent {
 
   get passwordControl(): FormControl {
     return this.loginForm.get('password') as FormControl;
-  }
-
-  private onErrorResponse(err: any): void {
-    const errorMessage = (err.status = 400 ? err.error.message : err.message);
-    const toast: IToast = {
-      key: ToastKeys.loginError,
-      type: 'error',
-      message: errorMessage,
-    };
-
-    this.toastService.addToast(toast);
-  }
-
-  private onSuccess(res: ILoginResponse): void {
-    this.authService.setAccessToken(res.token);
-    const toast: IToast = {
-      key: ToastKeys.loginSuccess,
-      type: 'success',
-      message: 'Login succes',
-    };
-    this.toastService.addToast(toast);
-    this.router.navigate([RootRoutes.todos]);
   }
 }

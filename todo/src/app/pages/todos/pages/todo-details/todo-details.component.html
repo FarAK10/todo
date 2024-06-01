@@ -1,3 +1,23 @@
-<p>
-  todo-details works!
-</p>
+<div class="todo-details">
+  <h2 class="todo-title">{{ todo()?.title }}</h2>
+  <div class="metadata">
+    <span class="date"
+      >Created At: {{ todo()?.created_at | date : "medium" }}</span
+    >
+    <span class="date"
+      >Last Updated At: {{ todo()?.updated_at | date : "medium" }}</span
+    >
+    <div class="actions">
+      <app-edit-btn routerLink="/edit"></app-edit-btn>
+      <app-delete-btn (onClick)="deleteTodo()"></app-delete-btn>
+    </div>
+  </div>
+  <p
+    [ngClass]="{
+      completed: todo()?.completed,
+      'not-completed': !todo()?.completed
+    }"
+  >
+    Todo completed: {{ completedText() }}
+  </p>
+</div>

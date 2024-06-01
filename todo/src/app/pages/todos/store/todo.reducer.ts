@@ -3,7 +3,12 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TodoActions from './todo.actions';
 import { IGetAllTodosRes, IGetTodoDTO } from '../../../core/typings/todo';
-import { initialState } from '.';
+import { ITodoState } from '.';
+const initialState: ITodoState = {
+  todos: { count: 0, prev: 0, next: 0, results: [] },
+  selectedTodo: null,
+  error: null,
+};
 
 export const todoReducer = createReducer(
   initialState,
