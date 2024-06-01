@@ -19,9 +19,9 @@ export class ApiClientService {
     return this.httpClient.post<T>(url, body);
   }
 
-  getAll<T>(url: string): Observable<T[]> {
+  getAll<T, V>(url: string): Observable<V> {
     url = this.generateUrl(url);
-    return this.httpClient.get<T[]>(url);
+    return this.httpClient.get<V>(url);
   }
 
   deleteByID(id: number, url: string) {

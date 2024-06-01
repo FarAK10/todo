@@ -20,4 +20,8 @@ export class AuthService {
   clearAccessToken() {
     localStorage.removeItem(this.accessTokenKey);
   }
+
+  isAuthenticated(): boolean {
+    return !!this.getAccessToken();
+  }
 }

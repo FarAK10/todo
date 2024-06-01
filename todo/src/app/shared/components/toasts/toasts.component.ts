@@ -6,7 +6,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { ToastComponent } from './components/toast/toast.component';
+import { ToastComponent } from './toast/toast.component';
 import { ToastService } from './services/toast.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
@@ -23,11 +23,11 @@ import { interval } from 'rxjs';
 export class ToastsComponent implements OnInit {
   toastService = inject(ToastService);
   destroyRef = inject(DestroyRef);
-
-  clearToast = toSignal(this.toastService.clearToasts$);
-  toasts = toSignal(this.toastService.toasts$);
-
+  clearToasts$ = this.toastService.clearToasts$.pipe(
+    takeUntilDestroyed(this.destroyRef)
+  );
+  toasts$ = this.toastService.toasts$;
   ngOnInit() {
-    this.clearToast();
+    this.clearToasts$.subscribe();
   }
 }

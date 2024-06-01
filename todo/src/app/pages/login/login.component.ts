@@ -3,6 +3,8 @@ import {
   Component,
   Inject,
   OnInit,
+  computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -22,10 +24,21 @@ import { ILoginDTO, ILoginResponse } from '../../core/typings/auth.dto';
 import { AuthApiClient } from '../../core/services/auth.client';
 import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../shared/components/toasts/services/toast.service';
-import { ToastComponent } from '../../shared/components/toasts/components/toast/toast.component';
+import { ToastComponent } from '../../shared/components/toasts/toast/toast.component';
 import { IToast } from '../../shared/components/toasts/typings/toast.interface';
 import { ToastKeys } from './constants/toast-keys';
 import { ToastsComponent } from '../../shared/components/toasts/toasts.component';
+import {
+  distinctUntilChanged,
+  finalize,
+  map,
+  startWith,
+  take,
+  tap,
+} from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { RootRoutes } from '../../core/constants/routes';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -47,6 +60,7 @@ export class LoginComponent {
   authClient = inject(AuthApiClient);
   authService = inject(AuthService);
   toastService = inject(ToastService);
+  router = inject(Router);
   fb = inject(FormBuilder);
 
   toastKeys = signal([ToastKeys.loginError, ToastKeys.loginSuccess]);
@@ -55,19 +69,38 @@ export class LoginComponent {
     email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
+  private isFormValid$ = this.loginForm.statusChanges.pipe(
+    map((status) => status === 'VALID'),
+    startWith(this.loginForm.valid),
+    distinctUntilChanged()
+  );
 
+  isLoading = signal(false);
+
+  isFormValid = toSignal(this.isFormValid$);
+
+  isButtonDisabled = computed(() => !this.isFormValid() || this.isLoading());
+  constructor() {}
   onSubmit(): void {}
 
   login(): void {
     const loginDTo = this.loginForm.value as ILoginDTO;
-    this.authClient.login(loginDTo).subscribe({
-      next: (res: ILoginResponse) => {
-        this.onSuccess(res);
-      },
-      error: (err) => {
-        this.onErrorResponse(err);
-      },
-    });
+    this.isLoading.set(true);
+    this.authClient
+      .login(loginDTo)
+      .pipe(
+        finalize(() => {
+          this.isLoading.set(false);
+        })
+      )
+      .subscribe({
+        next: (res: ILoginResponse) => {
+          this.onSuccess(res);
+        },
+        error: (err) => {
+          this.onErrorResponse(err);
+        },
+      });
   }
 
   get loginControl(): FormControl {
@@ -96,7 +129,7 @@ export class LoginComponent {
       type: 'success',
       message: 'Login succes',
     };
-    console.log(toast);
     this.toastService.addToast(toast);
+    this.router.navigate([RootRoutes.todos]);
   }
 }

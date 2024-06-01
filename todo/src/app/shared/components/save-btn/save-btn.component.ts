@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class SaveBtnComponent {
-  isDisabled = input<boolean>(false);
+  isDisabled = input<boolean>(true);
   isError = input<boolean>(false);
   onClick = output<void>();
 

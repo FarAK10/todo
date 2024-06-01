@@ -20,6 +20,7 @@
       <app-save-btn
         [isDisabled]="loginForm.invalid"
         (onClick)="login()"
+        [isDisabled]="isButtonDisabled()"
         class="save-btn"
       >
         Submit</app-save-btn

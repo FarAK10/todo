@@ -1,5 +1,5 @@
 <div class="toasts-container">
-  @for( toast of toasts();track toast.key){
+  @for( toast of toasts$|async;track toast.key){
   <toast [toast]="toast"></toast>
   }
 </div>

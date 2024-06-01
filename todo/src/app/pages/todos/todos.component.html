@@ -1,3 +1,5 @@
-<p>
-  todos works!
-</p>
+<div class="todos">
+  @for(todo of todos$|async;track todo.id ){
+  <app-todo class="todo" [todo]="todo"></app-todo>
+  }
+</div>

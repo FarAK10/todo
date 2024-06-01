@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { IToast } from '../../typings/toast.interface';
+import { IToast } from '../typings/toast.interface';
 @Component({
   selector: 'toast',
   standalone: true,
