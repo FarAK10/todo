@@ -22,12 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SaveBtnComponent } from '../../shared/components/save-btn/save-btn.component';
 import { ILoginDTO, ILoginResponse } from '../../core/typings/auth.dto';
 import { AuthApiClient } from '../../core/services/auth.client';
-import { AuthService } from '../../core/services/auth.service';
-import { ToastService } from '../../shared/components/toasts/services/toast.service';
-import { ToastComponent } from '../../shared/components/toasts/toast/toast.component';
-import { IToast } from '../../shared/components/toasts/typings/toast.interface';
-import { ToastKeys } from './constants/toast-keys';
-import { ToastsComponent } from '../../shared/components/toasts/toasts.component';
+
 import {
   distinctUntilChanged,
   finalize,
@@ -56,19 +51,15 @@ import { LoadingService } from '../../core/services/loading.service';
     MatButtonModule,
     MatCardModule,
     SaveBtnComponent,
-    ToastsComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ToastService],
 })
 export class LoginComponent {
   authClient = inject(AuthApiClient);
-  toastService = inject(ToastService);
   router = inject(Router);
   store = inject(Store);
   fb = inject(FormBuilder);
   loadingService = inject(LoadingService);
-  toastKeys = signal([ToastKeys.loginError, ToastKeys.loginSuccess]);
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required]],

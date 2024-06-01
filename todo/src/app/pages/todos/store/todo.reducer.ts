@@ -35,6 +35,8 @@ export const todoReducer = createReducer(
       ...state.todos,
       results: state.todos.results.map((t) => (t.id === todo.id ? todo : t)),
     },
+    selectedTodo:
+      state.selectedTodo?.id === todo.id ? todo : state.selectedTodo,
   })),
   on(TodoActions.updateTodoFailure, (state, { error }) => ({
     ...state,

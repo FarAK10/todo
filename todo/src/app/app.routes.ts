@@ -8,20 +8,31 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'prefix',
-    redirectTo: RootRoutes.auth,
+    redirectTo: RootRoutes.todos,
   },
   {
     path: RootRoutes.auth,
     component: AuthLayoutComponent,
-    loadChildren: () =>
-      import('./pages/login/login.routes').then((m) => m.routes),
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/login/login.routes').then((m) => m.routes),
+      },
+    ],
   },
   {
     path: RootRoutes.todos,
     canActivate: [authGuard],
     component: MainLayoutComponent,
-    loadChildren: () =>
-      import('./pages/todos/todos.routes').then((m) => m.routes),
+
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/todos/todos.routes').then((m) => m.routes),
+      },
+    ],
   },
 
   {

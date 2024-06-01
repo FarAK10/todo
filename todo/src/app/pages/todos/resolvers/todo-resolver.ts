@@ -1,11 +1,11 @@
 import { ResolveFn } from '@angular/router';
-import { selectTodoError } from './../store/todo.selectors';
 import { IGetTodoDTO } from '../../../core/typings/todo';
 import { catchError, filter, of, switchMap, take } from 'rxjs';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as TodoSelectors from '../store/todo.selectors';
 import * as TodoActions from '../store/todo.actions';
+
 export const todoResolver: ResolveFn<IGetTodoDTO | null> = (route, state) => {
   const todoId = route.paramMap.get('id');
   const store = inject(Store);
@@ -17,6 +17,7 @@ export const todoResolver: ResolveFn<IGetTodoDTO | null> = (route, state) => {
     take(1),
     switchMap((selectedTodo) => {
       if (selectedTodo && selectedTodo.id === todoId) {
+        console.log(selectedTodo);
         return of(selectedTodo);
       }
       store.dispatch(TodoActions.loadTodoById({ id: todoId }));

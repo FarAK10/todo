@@ -17,6 +17,8 @@ import { DeleteConfirmDialogComponent } from '../../../../shared/components/dele
 import { IDeleteDialogData } from '../../../../shared/components/delete-confirm-dialog/typings/delete-dialog-data.interfac';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import * as TodoActions from '../../store/todo.actions';
+import * as TodoSelectors from '../../store/todo.selectors';
+
 import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-todo-details',
@@ -44,15 +46,13 @@ export class TodoDetailsComponent implements OnInit {
     map((data) => data['todo'])
   );
 
-  todo = toSignal(this.todo$);
+  todo = toSignal(this.store.select(TodoSelectors.selectSelectedTodo));
 
   completedText = computed(() =>
     this.todo()?.completed ? 'completed' : 'not completed'
   );
 
   ngOnInit() {}
-
-  editTodo(): void {}
 
   deleteTodo(): void {
     const title = `Delete Todo?`;

@@ -35,6 +35,6 @@ export class TodoClient {
   }
 
   generateUrl(...params: (string | number)[]): string {
-    return params.join('/');
+    return params.join('/') + '/';
   }
 }

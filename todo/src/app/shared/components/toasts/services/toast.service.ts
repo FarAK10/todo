@@ -1,3 +1,4 @@
+import { IToast } from './../typings/toast.interface';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -14,12 +15,12 @@ import {
   timer,
   withLatestFrom,
 } from 'rxjs';
-import { IToast } from '../typings/toast.interface';
 import {
   IAddToastAction,
   IBaseToastAction,
   IDeleteToastAction,
 } from '../typings/toast-actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +64,19 @@ export class ToastService {
   deleteToast(toast: IToast) {
     const action: IDeleteToastAction = { type: 'delete', toast };
     this.toastAction$.next(action);
+  }
+
+  addErrorMessageToast(error: HttpErrorResponse, key: string) {
+    const toast: IToast = {
+      key,
+      message: error?.error?.message || error.message,
+      type: 'error',
+    };
+
+    if (error.status === 500) {
+      toast.message = 'Server unavailable, try again!';
+    }
+
+    this.addToast(toast);
   }
 }

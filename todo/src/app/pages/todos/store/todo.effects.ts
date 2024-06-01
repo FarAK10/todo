@@ -9,6 +9,7 @@ import { ToastService } from '../../../shared/components/toasts/services/toast.s
 import { IToast } from '../../../shared/components/toasts/typings/toast.interface';
 import { Router } from '@angular/router';
 import { RootRoutes } from '../../../core/constants/routes';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class TodoEffects {
@@ -16,6 +17,7 @@ export class TodoEffects {
   todoClient = inject(TodoClient);
   toastService = inject(ToastService);
   router = inject(Router);
+  location = inject(Location);
 
   loadTodos$ = createEffect(() =>
     this.actions$.pipe(
@@ -24,12 +26,8 @@ export class TodoEffects {
         this.todoClient.getAll().pipe(
           map((todos) => TodoActions.loadTodosSuccess({ todos })),
           catchError((error) => {
-            const toast: IToast = {
-              key: 'load_todos',
-              message: error?.error?.message || error.message,
-              type: 'error',
-            };
-            this.toastService.addToast(toast);
+            this.toastService.addErrorMessageToast(error, 'load_todos');
+
             return of(TodoActions.loadTodosFailure({ error }));
           })
         )
@@ -42,14 +40,19 @@ export class TodoEffects {
       ofType(TodoActions.addTodo),
       mergeMap((action) =>
         this.todoClient.create(action.todo).pipe(
-          map((todo) => TodoActions.addTodoSuccess({ todo })),
-          catchError((error) => {
-            const toast: IToast = {
-              key: 'add_todo',
-              message: error?.error?.message || error.message,
-              type: 'error',
+          map((todo) => {
+            const toaster: IToast = {
+              key: 'todo_create_success',
+              message: 'Todo successfully created',
+              type: 'success',
             };
-            this.toastService.addToast(toast);
+            this.toastService.addToast(toaster);
+            this.location.back();
+            return TodoActions.addTodoSuccess({ todo });
+          }),
+          catchError((error) => {
+            this.toastService.addErrorMessageToast(error, 'add_todo');
+
             return of(TodoActions.addTodoFailure({ error }));
           })
         )
@@ -62,14 +65,19 @@ export class TodoEffects {
       ofType(TodoActions.updateTodo),
       mergeMap((action) =>
         this.todoClient.update(action.id, action.changes).pipe(
-          map((todo) => TodoActions.updateTodoSuccess({ todo })),
-          catchError((error) => {
-            const toast: IToast = {
-              key: 'update_todo',
-              message: error?.error?.message || error.message,
-              type: 'error',
+          map((todo) => {
+            const toaster: IToast = {
+              key: 'todo_update_success',
+              message: 'Todo updated successfully!',
+              type: 'success',
             };
-            this.toastService.addToast(toast);
+            const route = `${RootRoutes.todos}/${todo.id}`;
+            this.router.navigate([route]);
+            this.toastService.addToast(toaster);
+            return TodoActions.updateTodoSuccess({ todo });
+          }),
+          catchError((error) => {
+            this.toastService.addErrorMessageToast(error, 'update_todo_error');
 
             return of(TodoActions.updateTodoFailure({ error }));
           })
@@ -84,16 +92,18 @@ export class TodoEffects {
       mergeMap((action) =>
         this.todoClient.delete(action.id).pipe(
           map(() => {
+            const toast: IToast = {
+              key: 'deleted_success',
+              message: 'Todo deleted successfully!',
+              type: 'success',
+            };
+
+            this.toastService.addToast(toast);
             this.router.navigate([RootRoutes.todos]);
             return TodoActions.deleteTodoSuccess({ id: action.id });
           }),
           catchError((error) => {
-            const toast: IToast = {
-              key: 'update_todo',
-              message: error?.error?.message || error.message,
-              type: 'error',
-            };
-            this.toastService.addToast(toast);
+            this.toastService.addErrorMessageToast(error, 'update_todo');
 
             return of(TodoActions.deleteTodoFailure({ error }));
           })
@@ -109,12 +119,8 @@ export class TodoEffects {
         this.todoClient.getById(action.id).pipe(
           map((todo) => TodoActions.loadTodoByIdSuccess({ todo })),
           catchError((error) => {
-            const toast: IToast = {
-              key: 'update_todo',
-              message: error?.error?.message || error.message,
-              type: 'error',
-            };
-            this.toastService.addToast(toast);
+            this.toastService.addErrorMessageToast(error, 'load_todo');
+
             return of(TodoActions.loadTodoByIdFailure({ error }));
           })
         )
