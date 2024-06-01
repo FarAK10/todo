@@ -25,7 +25,7 @@ export class ToastsComponent implements OnInit {
   destroyRef = inject(DestroyRef);
 
   clearToast = toSignal(this.toastService.clearToasts$);
-  toasts$ = this.toastService.toasts$;
+  toasts = toSignal(this.toastService.toasts$);
 
   ngOnInit() {
     this.clearToast();
