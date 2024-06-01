@@ -5,6 +5,9 @@ import { provideRouter, Router, RouterModule } from '@angular/router';
 import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TodoComponent } from './components/todo/todo.component';
+import { Store } from '@ngrx/store';
+import * as TodoActions from './store/todo.actions';
+import * as TodoSelectors from './store/todo.selectors';
 
 @Component({
   selector: 'app-todos',
@@ -15,10 +18,12 @@ import { TodoComponent } from './components/todo/todo.component';
   providers: [TodoClient],
 })
 export class TodosComponent implements OnInit {
-  todosClient = inject(TodoClient);
+  store = inject(Store);
+
   constructor() {}
-  todos$ = this.todosClient.getAll().pipe(map((v) => v.results));
+  todos$ = this.store.select(TodoSelectors.selectAllTodos);
+
   ngOnInit() {
-    this.todosClient.getAll().subscribe((v) => console.log(v));
+    this.store.dispatch(TodoActions.loadTodos());
   }
 }
