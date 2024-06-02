@@ -1,4 +1,4 @@
-<p>
+<div>
   <mat-toolbar color="primary">
     <button
       (click)="goHome()"
@@ -10,5 +10,10 @@
     </button>
     <span>My Todo List</span>
     <span class="example-spacer"></span>
+
+    <div class="userName"> <mat-icon>account_circle</mat-icon>
+     <span> {{userName()}}</span></div>
+
   </mat-toolbar>
-</p>
+
+</div>

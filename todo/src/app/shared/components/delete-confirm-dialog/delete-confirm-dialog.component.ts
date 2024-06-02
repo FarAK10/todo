@@ -35,7 +35,6 @@ export class DeleteConfirmDialogComponent {
   dialogRef = inject(MatDialogRef<DeleteConfirmDialogComponent>);
 
   close(isConfirmed: boolean) {
-    console.log('isconfirmed', isConfirmed);
     this.dialogRef.close(isConfirmed);
   }
 }

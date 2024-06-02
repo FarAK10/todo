@@ -17,7 +17,6 @@ export const todoResolver: ResolveFn<IGetTodoDTO | null> = (route, state) => {
     take(1),
     switchMap((selectedTodo) => {
       if (selectedTodo && selectedTodo.id === todoId) {
-        console.log(selectedTodo);
         return of(selectedTodo);
       }
       store.dispatch(TodoActions.loadTodoById({ id: todoId }));
