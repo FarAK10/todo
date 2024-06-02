@@ -10,7 +10,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { RootRoutes } from '../../core/constants/routes';
 import { ToastService } from '../../shared/components/toasts/services/toast.service';
-import { IToast } from '../../shared/components/toasts/typings/toast.interface';
 
 @Injectable()
 export class UserEffects {
@@ -42,35 +41,26 @@ export class UserEffects {
     )
   );
 
-  userLoginSuccessEffect$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.loginSuccess),
-      tap((action) => {
-        this.authService.setAccessToken(action.token);
-        const toast: IToast = {
-          key: 'login_success',
-          message: 'Successfully Logged In',
-          type: 'success',
-        };
-        this.toastService.addToast(toast);
-        this.router.navigate([RootRoutes.todos]);
-      })
-    ),
+  userLoginSuccessEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.loginSuccess),
+        tap((action) => {
+          this.authService.setAccessToken(action.token);
+          this.router.navigate([RootRoutes.todos]);
+        })
+      ),
     { dispatch: false }
   );
 
-  loginErrorEffect$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.loginFailure),
-      tap((action) => {
-        const toast: IToast = {
-          key: 'login_error',
-          message: action.error?.error?.message || action.error.message,
-          type: 'error',
-        };
-        this.toastService.addToast(toast);
-      })
-    ),
+  loginErrorEffect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.loginFailure),
+        tap((action) => {
+          this.toastService.addErrorMessageToast(action.error, 'login_error');
+        })
+      ),
     { dispatch: false }
   );
 
