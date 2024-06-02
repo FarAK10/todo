@@ -29,41 +29,56 @@ export class UserEffects {
         this.authApiClient
           .login({ email: action.email, password: action.password })
           .pipe(
-            tap((response) => {
-              this.authService.setAccessToken(response.token);
-              const toast: IToast = {
-                key: 'login_error',
-                message: 'successfully Loged In',
-                type: 'success',
-              };
-              this.toastService.addToast(toast);
-              this.router.navigate([RootRoutes.todos]);
-            }),
             map((response) =>
               UserActions.loginSuccess({
                 userId: response.user_id,
                 userName: response.username,
+                token: response.token,
               })
             ),
-            catchError((error) => {
-              const toast: IToast = {
-                key: 'login_error',
-                message: error?.error?.message || error.message,
-                type: 'error',
-              };
-              this.toastService.addToast(toast);
-              return of(UserActions.loginFailure({ error }));
-            })
+            catchError((error) => of(UserActions.loginFailure({ error })))
           )
       )
     )
+  );
+
+  userLoginSuccessEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.loginSuccess),
+      tap((action) => {
+        this.authService.setAccessToken(action.token);
+        const toast: IToast = {
+          key: 'login_success',
+          message: 'Successfully Logged In',
+          type: 'success',
+        };
+        this.toastService.addToast(toast);
+        this.router.navigate([RootRoutes.todos]);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  loginErrorEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.loginFailure),
+      tap((action) => {
+        const toast: IToast = {
+          key: 'login_error',
+          message: action.error?.error?.message || action.error.message,
+          type: 'error',
+        };
+        this.toastService.addToast(toast);
+      })
+    ),
+    { dispatch: false }
   );
 
   logout$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(UserActions.logout),
-        tap(() => this.authService.clearAccessToken()) // Remove token from local storage on logout
+        tap(() => this.authService.clearAccessToken())
       ),
     { dispatch: false }
   );

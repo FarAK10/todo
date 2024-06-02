@@ -25,11 +25,9 @@ export class AuthService {
     localStorage.removeItem(this.accessTokenKey);
   }
 
-
   isAuthenticated(): Observable<boolean> {
-     return this.store.select(UserSelectors.selectUserId).pipe(
-      take(1),
-        map(userId=> !!userId && !!this.getAccessToken())
-     )
+    return this.store
+      .select(UserSelectors.selectUserId)
+      .pipe(map((userId) => !!userId && !!this.getAccessToken()));
   }
 }

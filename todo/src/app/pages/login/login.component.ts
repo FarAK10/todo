@@ -66,9 +66,9 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
   private isFormValid$ = this.loginForm.statusChanges.pipe(
+    distinctUntilChanged(),
     map((status) => status === 'VALID'),
-    startWith(this.loginForm.valid),
-    distinctUntilChanged()
+    startWith(this.loginForm.valid)
   );
 
   isLoading = toSignal(this.loadingService.loading$);
