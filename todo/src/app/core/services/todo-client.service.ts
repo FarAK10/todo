@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { ApiClientService } from './api-client.service';
 import { TodoEndpoints } from '../constants/todo-endpoints';
 import { IBaseTodoDTO, IGetAllTodosRes, IGetTodoDTO } from '../typings/todo';
 import { HttpClient } from '@angular/common/http';

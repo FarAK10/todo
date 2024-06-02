@@ -15,7 +15,13 @@ import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([baseUrlInterceptor,authInterceptor, loadingInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        baseUrlInterceptor,
+        authInterceptor,
+        loadingInterceptor,
+      ])
+    ),
     provideAnimationsAsync(),
     provideStore(reducers),
     provideEffects(effects),

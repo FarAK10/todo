@@ -38,6 +38,7 @@ import { Store } from '@ngrx/store';
 import * as UserActions from '../../store/user/user.actions';
 import * as UserSelectors from '../../store/user/user.selector';
 import { LoadingService } from '../../core/services/loading.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -50,6 +51,7 @@ import { LoadingService } from '../../core/services/loading.service';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     SaveBtnComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,17 +64,18 @@ export class LoginComponent {
   loadingService = inject(LoadingService);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
   private isFormValid$ = this.loginForm.statusChanges.pipe(
+    distinctUntilChanged(),
     map((status) => status === 'VALID'),
-    startWith(this.loginForm.valid),
-    distinctUntilChanged()
+    startWith(this.loginForm.valid)
   );
 
   isLoading = toSignal(this.loadingService.loading$);
   isFormValid = toSignal(this.isFormValid$);
+  showPassword = false;
 
   isButtonDisabled = computed(() => {
     const formValid = !!this.isFormValid();

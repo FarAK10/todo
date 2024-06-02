@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   OnInit,
 } from '@angular/core';
@@ -18,7 +17,6 @@ import { IDeleteDialogData } from '../../../../shared/components/delete-confirm-
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import * as TodoActions from '../../store/todo.actions';
 import * as TodoSelectors from '../../store/todo.selectors';
-
 import { Store } from '@ngrx/store';
 import { BackBtnComponent } from '../../../../shared/components/back-btn/back-btn.component';
 @Component({
@@ -33,12 +31,11 @@ import { BackBtnComponent } from '../../../../shared/components/back-btn/back-bt
     EditBtnComponent,
     RouterModule,
     MatDialogModule,
-    BackBtnComponent
+    BackBtnComponent,
   ],
 })
 export class TodoDetailsComponent implements OnInit {
   route = inject(ActivatedRoute);
-
   dialog = inject(MatDialog);
   store = inject(Store);
   constructor() {}
@@ -47,7 +44,7 @@ export class TodoDetailsComponent implements OnInit {
     map((data) => data['todo'])
   );
 
-  todo = toSignal(this.store.select(TodoSelectors.selectSelectedTodo));
+  todo = toSignal(this.todo$);
 
   completedText = computed(() =>
     this.todo()?.completed ? 'completed' : 'not completed'

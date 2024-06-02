@@ -1,5 +1,9 @@
 @if(isLoading()){
-<mat-progress-bar class="overlay" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar
+  color="warn"
+  class="overlay"
+  mode="indeterminate"
+></mat-progress-bar>
 }
 <router-outlet></router-outlet>
 <toasts></toasts>

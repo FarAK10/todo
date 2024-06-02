@@ -14,16 +14,14 @@ export const todoResolver: ResolveFn<IGetTodoDTO | null> = (route, state) => {
   }
 
   return store.select(TodoSelectors.selectSelectedTodo).pipe(
-    take(1),
     switchMap((selectedTodo) => {
       if (selectedTodo && selectedTodo.id === todoId) {
         return of(selectedTodo);
       }
       store.dispatch(TodoActions.loadTodoById({ id: todoId }));
-      return store.select(TodoSelectors.selectSelectedTodo).pipe(
-        filter((todo) => !!todo && todo.id === todoId),
-        take(1)
-      );
+      return store
+        .select(TodoSelectors.selectSelectedTodo)
+        .pipe(filter((todo) => !!todo && todo.id === todoId));
     }),
     catchError(() => of(null))
   );
