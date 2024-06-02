@@ -7,12 +7,12 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'prefix',
+    pathMatch: 'full',
     redirectTo: RootRoutes.todos,
   },
   {
     path: RootRoutes.auth,
-    component: AuthLayoutComponent,
+    loadComponent: ()=> import('./layouts/auth-layout/auth-layout.component').then(c=>c.AuthLayoutComponent),
     children: [
       {
         path: '',
@@ -24,7 +24,7 @@ export const routes: Routes = [
   {
     path: RootRoutes.todos,
     canActivate: [authGuard],
-    component: MainLayoutComponent,
+    loadComponent: ()=> import('./layouts/main-layout/main-layout.component').then(c=>c.MainLayoutComponent),
 
     children: [
       {

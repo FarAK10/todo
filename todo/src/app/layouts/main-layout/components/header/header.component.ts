@@ -4,6 +4,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { RootRoutes } from '../../../../core/constants/routes';
+import * as UserSelectors from '../../../../store/user/user.selector'
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -14,6 +17,8 @@ import { RootRoutes } from '../../../../core/constants/routes';
 })
 export class HeaderComponent {
   router = inject(Router);
+  store = inject(Store)
+  userName = toSignal(this.store.select(UserSelectors.selectUserName))
 
   goHome() {
     this.router.navigate([RootRoutes.todos]);

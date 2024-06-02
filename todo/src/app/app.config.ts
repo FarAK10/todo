@@ -10,11 +10,12 @@ import { effects, reducers, TodoEffects, todoReducer } from './store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor, loadingInterceptor])),
+    provideHttpClient(withInterceptors([baseUrlInterceptor,authInterceptor, loadingInterceptor])),
     provideAnimationsAsync(),
     provideStore(reducers),
     provideEffects(effects),

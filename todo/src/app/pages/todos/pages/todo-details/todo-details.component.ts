@@ -20,6 +20,7 @@ import * as TodoActions from '../../store/todo.actions';
 import * as TodoSelectors from '../../store/todo.selectors';
 
 import { Store } from '@ngrx/store';
+import { BackBtnComponent } from '../../../../shared/components/back-btn/back-btn.component';
 @Component({
   selector: 'app-todo-details',
   templateUrl: './todo-details.component.html',
@@ -32,6 +33,7 @@ import { Store } from '@ngrx/store';
     EditBtnComponent,
     RouterModule,
     MatDialogModule,
+    BackBtnComponent
   ],
 })
 export class TodoDetailsComponent implements OnInit {
