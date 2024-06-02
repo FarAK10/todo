@@ -6,7 +6,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
-import { SubmitButtonStyle } from '../../typings/button';
+import { SubmitButtonStyle } from './typings/button';
 import { CommonModule } from '@angular/common';
 
 @Component({
