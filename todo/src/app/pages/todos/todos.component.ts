@@ -16,6 +16,7 @@ import { ToastService } from '../../shared/components/toasts/services/toast.serv
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { TodoRoutes } from './constants/todo-routes';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -30,11 +31,11 @@ export class TodosComponent implements OnInit {
   store = inject(Store);
   routes = TodoRoutes;
   private todos$ = this.store.select(TodoSelectors.selectAllTodos);
-  private error$ = this.store.select(TodoSelectors.selectTodoError);
-
-  error = toSignal(this.error$);
-
+  private todosCount$ = this.store.select(TodoSelectors.todosCount);
   todos = toSignal(this.todos$);
+  count = toSignal(this.todosCount$);
+
+  constructor(private toastService: ToastService) {}
 
   ngOnInit() {
     this.store.dispatch(TodoActions.loadTodos());
