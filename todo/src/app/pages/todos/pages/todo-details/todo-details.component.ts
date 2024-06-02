@@ -44,7 +44,6 @@ export class TodoDetailsComponent implements OnInit {
   constructor() {}
 
   todo$: Observable<IGetTodoDTO> = this.route.data.pipe(
-    tap(console.log),
     map((data) => data['todo'])
   );
 
@@ -67,7 +66,6 @@ export class TodoDetailsComponent implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(
-        tap(console.log),
         filter((isConfirmed) => isConfirmed),
         tap(() => {
           const id = this.todo()?.id as string;
